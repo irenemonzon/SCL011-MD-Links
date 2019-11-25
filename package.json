@@ -1,4 +1,33 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "## Índice",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest--coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irenemonzon/SCL011-MD-Links.git"
+  },
+  "keywords": [
+    "mdlinks",
+    "test",
+    "node"
+  ],
+  "author": "irene",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/irenemonzon/SCL011-MD-Links/issues"
+  },
+  "homepage": "https://github.com/irenemonzon/SCL011-MD-Links#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "extract-links-from-mdown": "^1.5.1",
+    "linkinmark": "^1.0.5",
+    "markdown-link-extractor": "^1.2.2"
+  }
 }
