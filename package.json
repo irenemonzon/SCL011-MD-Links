@@ -25,9 +25,13 @@
   },
   "homepage": "https://github.com/irenemonzon/SCL011-MD-Links#readme",
   "dependencies": {
+    "eslint": "^6.7.1",
+    "eslint-plugin-jest": "^23.0.4",
     "express": "^4.17.1",
     "extract-links-from-mdown": "^1.5.1",
     "linkinmark": "^1.0.5",
-    "markdown-link-extractor": "^1.2.2"
+    "markdown-link-extractor": "^1.2.2",
+    "marked": "^0.7.0",
+    "save": "^2.4.0"
   }
 }

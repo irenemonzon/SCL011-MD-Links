@@ -1,9 +1,18 @@
 
 const fs= require("fs");
-const path= require("path");
-const markdownLinkExtractor = require('markdown-link-extractor');
+const pathnode= require("path");
+//const markdownLinkExtractor = require('markdown-link-extractor');
+const Marked=require("marked");
 
 //lee archivo md
+
+let path=process.argv[2];
+
+path=pathnode.resolve(path);
+
+path=pathnode.normalize(path);
+
+
 const readmdfile =(path=>{
 
   return new Promise((res,rej)=>{
@@ -18,21 +27,32 @@ const readmdfile =(path=>{
    }) 
 }) 
 
-const readmd=readmdfile("./README.md");
+const readmd=readmdfile(path);
 
 readmd.then(datos => {
-  //console.log(datos);
-  const links = markdownLinkExtractor(datos);
-  links.forEach(function (link) {
-    console.log(link);
-    })
-  })
-.catch(error => console.log(error))
+  
+  const links = [];
 
-console.log(process.argv);
+  const renderer = new Marked.Renderer(datos);
 
-/*if(require.main === module){
+  renderer.link = function(href, file, text) {
+    links.push({
+      href: href, 
+      text: text,  
+      file:path
+    });
+  };
+
+  Marked(datos, {renderer: renderer});
+  //return links;
+  console.log(links);
+  
+})
+.catch(error => console.log(error));
+/*
+
+if(require.main === module){
   console.log("Me están ejecutando desde la terminal")
 }else{
-  console.log("Soy una biblioteca")
-}*/
+  console.log("Soy una biblioteca");*/
+
