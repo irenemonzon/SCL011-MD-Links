@@ -2,7 +2,7 @@
 const fs= require("fs");
 const pathnode= require("path");
 //const markdownLinkExtractor = require('markdown-link-extractor');
-const Marked=require("marked");
+const marked=require("marked");
 
 //lee archivo md
 
@@ -13,42 +13,45 @@ path=pathnode.resolve(path);
 path=pathnode.normalize(path);
 
 
-const readmdfile =(path=>{
+/** Leer archivos .md **/
+/*function readMdFile (path){
+  const promise = new Promise((resolve,reject)=>{
+    fs.readFile(path,"UTF-8", (error, data)=>{
+      if(error){
+        reject (new Error ("No hay archivo"))
+      } 
+      resolve (data);
+      console.log(data);
+    })
+  })
+  return promise
+}
+readMdFile(path)*/
 
-  return new Promise((res,rej)=>{
-
-    fs.readFile(path,"UTF-8",(error,data)=>{
-      if(error)
-       rej(new error ("no se encuentra archivo"));
-      
-       res(data);
-     
-      })
-   }) 
-}) 
-
-const readmd=readmdfile(path);
-
-readmd.then(datos => {
-  
-  const links = [];
-
-  const renderer = new Marked.Renderer(datos);
-
-  renderer.link = function(href, file, text) {
-    links.push({
-      href: href, 
-      text: text,  
-      file:path
-    });
-  };
-
-  Marked(datos, {renderer: renderer});
-  //return links;
-  console.log(links);
-  
-})
-.catch(error => console.log(error));
+//Extraer links
+function extractLinks (path){
+  const promise = new Promise((resolve,reject)=>{
+    fs.readFile(path,"UTF-8", (error, data)=>{
+      if(error){
+        reject (new Error ("No hay links"))
+      }
+      const links = [];
+      const renderer = new marked.Renderer();
+      renderer.link = function(href, file, text){
+        links.push({
+          href: href,
+          text: text,
+          file:path
+        });
+      };
+      marked(data, {renderer:renderer})
+      resolve (links);
+      console.log(links);
+    })
+  })
+  return promise
+}
+extractLinks(path)
 /*
 
 if(require.main === module){
