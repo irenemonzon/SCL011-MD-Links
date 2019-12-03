@@ -1,8 +1,8 @@
 
 const fs= require("fs");
 const pathnode= require("path");
-//const markdownLinkExtractor = require('markdown-link-extractor');
 const marked=require("marked");
+const fetch=require("node-fetch")
 
 //lee archivo md
 
@@ -12,21 +12,6 @@ path=pathnode.resolve(path);
 
 path=pathnode.normalize(path);
 
-
-/** Leer archivos .md **/
-/*function readMdFile (path){
-  const promise = new Promise((resolve,reject)=>{
-    fs.readFile(path,"UTF-8", (error, data)=>{
-      if(error){
-        reject (new Error ("No hay archivo"))
-      } 
-      resolve (data);
-      console.log(data);
-    })
-  })
-  return promise
-}
-readMdFile(path)*/
 
 //Extraer links
 function extractLinks (path){
@@ -52,10 +37,32 @@ function extractLinks (path){
   return promise
 }
 extractLinks(path)
-/*
 
-if(require.main === module){
-  console.log("Me están ejecutando desde la terminal")
-}else{
-  console.log("Soy una biblioteca");*/
 
+let validate =() =>{
+  //let promiseFetch = new Promise((resolve ,reject)=>{
+  extractLinks(path).then((links)=>{
+  links.map(element => {
+      return fetch(element.href).then(res =>{
+         // v.status=res.statusText;
+         if(res.ok){
+         console.log(element.href +  res.status);
+         console.log(res.statusText);
+         // v.statusCode = res.status;
+         }
+         else{
+          console.log(element.href  +  res.status)
+          console.log(res.statusText);
+         } 
+        }).catch((err)=>{
+            console.log(err.statusText );
+         // v.status = err
+        }) ;
+      
+  });    
+  
+  })
+  
+  }
+  
+  validate()
